@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Item Manager</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Item Manager</h1>
+
+  <!-- Display success message if it exists -->
+  <% if (message) { %>
+    <div class="message">
+      <%= message %>
+    </div>
+  <% } %>
+
+  <!-- Add Item Form -->
+  <form method="POST" action="/items">
+    <input name="name" placeholder="New item..." required />
+    <button type="submit">Add</button>
+  </form>
+
+  <!-- List of Items -->
+  <ul>
+    <% items.forEach(item => { %>
+      <li>
+        <form method="POST" action="/update/<%= item.id %>">
+          <input type="text" name="name" value="<%= item.name %>" required />
+          <div class="actions">
+            <button class="edit" type="submit">Update</button>
+          </div>
+        </form>
+
+        <form method="POST" action="/delete/<%= item.id %>" class="actions">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
