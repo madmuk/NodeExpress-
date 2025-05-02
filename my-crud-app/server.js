@@ -1,54 +1,61 @@
 const express = require('express');
+const path = require('path');
+const flash = require('express-flash');
+const session = require('express-session');  // Add this line
 const app = express();
 const PORT = 3000;
 
-// Middleware to parse JSON and URL-encoded form data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Session setup
+app.use(session({
+  secret: 'your-secret-key', // Change this to a secure, random string
+  resave: false,
+  saveUninitialized: true
+}));
 
-// In-memory item storage
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash()); // Initialize flash messages
+
 let items = [];
 let nextId = 1;
 
-// Route to show HTML form and item list
+// Render EJS template
 app.get('/', (req, res) => {
-  const listHtml = items.map(item => `<li>${item.name}</li>`).join('');
-  res.send(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>My Items</title>
-      </head>
-      <body>
-        <h1>My Items</h1>
-        <form method="POST" action="/items">
-          <input name="name" placeholder="Item name" required />
-          <button type="submit">Add</button>
-        </form>
-        <ul>${listHtml}</ul>
-      </body>
-    </html>
-  `);
+  res.render('index', { items, message: req.flash('message') });
 });
 
-// Route to handle form submissions (add item)
+// Add Item
 app.post('/items', (req, res) => {
   const { name } = req.body;
-  if (name && name.trim() !== '') {
-    items.push({ id: nextId++, name: name.trim() });
-    console.log('Item added:', name);
-  } else {
-    console.log('Invalid name received.');
+  if (name) {
+    items.push({ id: nextId++, name });
+    req.flash('message', 'Item added successfully!');
   }
   res.redirect('/');
 });
 
-// API route to get all items as JSON
-app.get('/api/items', (req, res) => {
-  res.json(items);
+// Update Item
+app.post('/update/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const item = items.find(i => i.id === id);
+  if (item) {
+    item.name = req.body.name;
+    req.flash('message', 'Item updated successfully!');
+  }
+  res.redirect('/');
 });
 
-// Start the server
+// Delete Item
+app.post('/delete/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  items = items.filter(i => i.id !== id);
+  req.flash('message', 'Item deleted successfully!');
+  res.redirect('/');
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
