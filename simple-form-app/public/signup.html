@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style.css" />
+  <title>Sign Up</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.5rem;
+    }
+    a {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <h2>Sign Up</h2>
+  <form action="/signup" method="POST">
+    <input type="text" name="username" required placeholder="Username" />
+    <input type="password" name="password" required placeholder="Password" />
+    <button type="submit">Sign Up</button>
+  </form>
+  <a href="/">Back</a>
+</body>
+</html>
