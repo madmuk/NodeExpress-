@@ -38,7 +38,9 @@ form {
 
 /* Input Styles */
 input[type="text"], 
-input[type="password"] {
+input[type="password"],
+textarea,
+select {
     padding: 12px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -48,7 +50,9 @@ input[type="password"] {
 }
 
 input[type="text"]:focus, 
-input[type="password"]:focus {
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
     border-color: #007bff;
     outline: none;
 }
@@ -83,6 +87,40 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Flash Message Styles */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+/* Back Button Styles */
+.back-button {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
     .container {
@@ -92,7 +130,9 @@ a:hover {
 
     input[type="text"], 
     input[type="password"], 
-    button {
+    button, 
+    textarea,
+    select {
         font-size: 14px;
         padding: 10px;
     }

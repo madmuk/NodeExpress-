@@ -11,7 +11,7 @@ def init_db():
     conn = get_db_connection()
     c = conn.cursor()
 
-    # Create users table if it doesn't exist
+    # Create users table
     c.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,6 +19,18 @@ def init_db():
             password TEXT NOT NULL
         )
     ''')
+
+    # Create tasks table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            title TEXT NOT NULL,
+            description TEXT,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
+
     conn.commit()
     conn.close()
 
