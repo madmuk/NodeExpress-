@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome, {{ username }}!</h2>
+
+<h3>Your Tasks</h3>
+
+{% if tasks %}
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <h4>{{ task[2] }}</h4>  <!-- Task Title -->
+                <p>{{ task[3] }}</p>    <!-- Task Description -->
+                <a href="{{ url_for('tasks.delete_task', task_id=task[0]) }}" class="btn btn-danger">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no tasks yet. <a href="{{ url_for('tasks.add_task') }}">Add a task</a></p>
+{% endif %}
+
+<a href="{{ url_for('api.logout') }}">Logout</a>
+{% endblock %}
